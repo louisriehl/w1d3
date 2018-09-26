@@ -28,27 +28,33 @@ var data = {
     name: "Finn",
     age: 25,
     follows: ["f05"]
-  },
+  }
 
-  printFollowerOnID: function (idArray) // when given an array of ids, prints the users they correspond to
+
+};
+
+  function returnUsersOnId (idArray) // when given an array of ids, returns the users they correspond to
   {
+    var string = "";
     // console.log(idArray);
     // console.log(this.f01.name);
     for (var i = 0; i < idArray.length; i++)
     {
       var id = idArray[i];
-      console.log(this[id]['name']);
+      string += data[id]['name'] + " ";
     }
-  },
+    return string;
+  }
 
-  // printAllFollowers: function()
-  // {
-  //   for (var user in this)
-  //   {
-  //     console.log(this[user]['follows']);
-  //     console.log(this[user]['name'], "follows", this.printFollowerOnID(this[user]['follows']));
-  //   }
-  // }
-};
-// data.printAllFollowers();
-data.printFollowerOnID(["f02", "f03", "f04"]);
+  function printAllFollowing() // print who each user is following
+  {
+    for (var users in data)
+    {
+      var following = "";
+      following += data[users]['name'] + ' follows : ';
+      following += returnUsersOnId(data[users]['follows']);
+      console.log(following);
+    }
+  }
+
+  printAllFollowing();
