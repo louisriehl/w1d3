@@ -33,7 +33,7 @@ var data = {
 
 };
 
-function returnUsersOnId (idArray) // when given an array of ids, returns the users they correspond to
+function returnUsersOnId (idArray) // when given an array of ids, returns the names of the users they correspond to
 {
   var string = "";
   // console.log(idArray);
@@ -46,7 +46,7 @@ function returnUsersOnId (idArray) // when given an array of ids, returns the us
   return string;
 }
 
-function printWhat(string)
+function printWhat(string) // prints lists of names based on what is needed, querying with an array of ids
 {
   var tag;
   var attribute;
@@ -71,27 +71,6 @@ function printWhat(string)
   }
 }
 
-function printAllFollowing() // print who each user is following
-{
-  for (var users in data)
-  {
-    var following = "";
-    following += data[users]['name'] + ' follows : ';
-    following += returnUsersOnId(data[users]['follows']);
-    console.log(following);
-  }
-}
-
-function printAllFollowers() // print who each user is following
-{
-  for (var users in data)
-  {
-    var following = "";
-    following += data[users]['name'] + ' is followed by : ';
-    following += returnUsersOnId(data[users]['followedBy']);
-    console.log(following);
-  }
-}
 function setFollowing()
 {
 
@@ -121,8 +100,38 @@ function setFollowing()
 
 // printAllFollowing();
 
+function statChecker()
+{
+  var most = {followers: {name: "", count: 0}, following: {name: "", count: 0} };
+  for (var users in data)
+  {
+    if (data[users]['followedBy'].length > most['followers']['count'])
+    {
+      most['followers']['name'] =  data[users]['name'];
+      most['followers']['count'] = data[users]['followedBy'].length;
+    }
+
+     if (data[users]['follows'].length > most['following']['count'])
+    {
+      most['following']['name'] =  data[users]['name'];
+      most['following']['count'] = data[users]['follows'].length;
+    }
+  }
+  //console.log(most);
+
+  function statPrint()
+  {
+    var string = "";
+    string += most['followers']['name'] + ' has the most followers, with ' + most['followers']['count'] + ' followers!';
+    string += "\n" + most['following']['name'] + ' follows the most users, with ' + most['following']['count'] + ' users followed!';
+    return string;
+  }
+  return statPrint();
+}
+
 setFollowing();
 printWhat('followers');
+console.log(statChecker());
 // printAllFollowers();
 // printAllFollowing();
 // console.log(data);
