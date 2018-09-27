@@ -71,7 +71,7 @@ function printWhat(string) // prints lists of names based on what is needed, que
   }
 }
 
-function setFollowing()
+(function setFollowing()
 {
 
   function setter() //adds followedBy property to each object
@@ -96,7 +96,7 @@ function setFollowing()
     }
   }
 
-}
+})();
 
 // printAllFollowing();
 
@@ -129,7 +129,62 @@ function statChecker()
   return statPrint();
 }
 
-setFollowing();
+function ageStatChecker(age) //takes an age parameter and returns object containing who has the most followers/is being followed by members abive that age
+{
+  var most = {followers: {name: "", count: 0}, following: {name: "", count: 0} };
+  for (var users in data)
+  {
+    var followerArray = data[users]['followedBy'];
+    var counter = 0;
+    for (var i = 0; i < followerArray.length; i++)
+    {
+      if (data[followerArray[i]]['age'] > age)
+        counter++;
+    }
+    if (counter > most['followers']['count'])
+    {
+      most['followers']['name'] = data[users]['name'];
+      most['followers']['count'] = counter;
+    }
+    var followingArray = data[users]['follows'];
+    counter = 0;
+    for (var i = 0; i < followingArray.length; i++)
+    {
+      if (data[followingArray[i]]['age'] > age)
+        counter++;
+    }
+    if (counter > most['following']['count'])
+    {
+      most['following']['name'] = data[users]['name'];
+      most['following']['count'] = counter;
+    }
+  }
+
+  function statPrint()
+  {
+    var string = "";
+    string += most['followers']['name'] + ' has the most followers over ' + age + ' , with ' + most['followers']['count'] + ' followers!';
+    string += "\n" + most['following']['name'] + ' follows the most users over ' + age + ', with ' + most['following']['count'] + ' users followed!';
+    return string;
+  }
+  return statPrint();
+
+}
+
+console.log(ageStatChecker(30));
+
+// (function over30 ()
+// {
+//   for (var users in data)
+//   {
+//     if (data[users]['age'] > 30)
+//       data[users]['isOver30'] = true;
+//     else
+//       data[users]['isOver30'] = false;
+//   }
+// })();
+
+// setFollowing();
 printWhat('followers');
 console.log(statChecker());
 // printAllFollowers();
